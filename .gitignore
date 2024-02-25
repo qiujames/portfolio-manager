@@ -1,0 +1,42 @@
+# Node.js
+node_modules/
+
+# Dependency directories
+/node_modules
+/.pnp
+.pnp.js
+
+# Optional npm cache directory
+.npm
+
+# Yarn
+yarn-error.log
+yarn.lock
+
+# Visual Studio Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Editor directories and files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# Jest
+/coverage
+
+# Build directories
+/build
+/dist
+/out
+
+# Generated files
+*.log
+*.zip
+*.gz
+
