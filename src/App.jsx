@@ -1,12 +1,11 @@
 import React from 'react';
 
 import './App.css';
-import Header from './components/Header';
-import StockList from './components/StockList';
+import Overview from './components/Overview';
 
 function App() {
   return (
-    <StockList />
+    <Overview />
   );
 }
 

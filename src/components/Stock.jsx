@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-function Stock({ ticker, quantity, value }) {
-  const [quantityState, setQuantityState] = useState(quantity);
-
-  function increaseQuantity() {
-    setQuantityState((prevQuantity) => prevQuantity + 1);
-  }
-
+function Stock({
+  ticker, quantity, value, onAddQuantityHandler,
+}) {
   return (
-    quantityState > 0
+    quantity > 0
       ? (
         <li>
           {ticker}
           :
-          {quantityState}
+          {quantity}
           *
           {value}
           =
-          {quantityState * value}
-          <button type="button" onClick={increaseQuantity}>Increase Quantity</button>
+          {quantity * value}
+          <button type="button" onClick={() => onAddQuantityHandler(ticker)}>Increase Quantity</button>
         </li>
       ) : null);
 }
@@ -28,5 +24,6 @@ Stock.propTypes = {
   ticker: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
+  onAddQuantityHandler: PropTypes.func.isRequired,
 };
 export default Stock;
