@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Stock from './Stock';
+import Header from './Header';
+import AddStockButton from './AddStockButton';
 
 function StockList() {
   // TODO: read these from a db or have some user saved state
@@ -10,7 +12,7 @@ function StockList() {
   ]);
 
   // TODO: Make this a global list, potentially from a file too
-  const addableStocks = [
+  const allStocks = [
     { ticker: 'AAPL', name: 'Apple Inc.' },
     { ticker: 'GOOGL', name: 'Alphabet Inc.' },
     { ticker: 'MSFT', name: 'Microsoft Corporation' },
@@ -18,31 +20,18 @@ function StockList() {
     { ticker: 'TSLA', name: 'Tesla, Inc.' },
   ];
 
-  const [selectedStock, setSelectedStock] = useState('');
-  const [quantity, setQuantity] = useState(0);
+  const addableStocks = allStocks
+    .filter((stock) => !stocks.some((item) => item.ticker === stock.ticker));
 
-  const onStockSelectHandler = (event) => {
-    setSelectedStock(event.target.value);
-  };
-
-  const onStockQuantitySetHandler = (event) => {
-    setQuantity(event.target.value);
-  };
-
-  const onAddStackHandler = () => {
-    const quantityInt = parseInt(quantity, 10);
-    if (selectedStock && quantity > 0) {
-      setStocks((prevStocks) => [...prevStocks,
-        { ticker: selectedStock, quantity: quantityInt, value: 10 },
-      ]);
-      setSelectedStock('');
-      setQuantity(0);
-    }
+  const onAddStockHandler = (newStock) => {
+    setStocks((prevStocks) => [...prevStocks, { ...newStock }]);
   };
 
   // TODO: Split the Add a stock into components
   return (
     <>
+      <Header />
+      <AddStockButton addableStocks={addableStocks} onAddStockHandler={onAddStockHandler} />
       <ul>
         {stocks.map((stock) => (
           <Stock
@@ -53,18 +42,6 @@ function StockList() {
           />
         ))}
       </ul>
-      <select value={selectedStock} onChange={onStockSelectHandler}>
-        <option value="">Select a stock</option>
-        {addableStocks
-          .filter((stock) => !stocks.some((item) => item.ticker === stock.ticker))
-          .map((stock) => (
-            <option key={stock.ticker} value={stock.ticker}>{stock.name}</option>
-          ))}
-      </select>
-      <input type="number" value={quantity} onChange={onStockQuantitySetHandler} />
-      <button type="button" onClick={onAddStackHandler}>
-        Add Stock
-      </button>
     </>
   );
 }
