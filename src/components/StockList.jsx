@@ -1,49 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Stock from './Stock';
-import Header from './Header';
-import AddStockButton from './AddStockButton';
 
-function StockList() {
-  // TODO: read these from a db or have some user saved state
-  const [stocks, setStocks] = useState([
-    { ticker: 'VOO', quantity: 5, value: 500 },
-    { ticker: 'V', quantity: 10, value: 23 },
-    { ticker: 'MC', quantity: 0, value: 400 },
-  ]);
-
-  // TODO: Make this a global list, potentially from a file too
-  const allStocks = [
-    { ticker: 'AAPL', name: 'Apple Inc.' },
-    { ticker: 'GOOGL', name: 'Alphabet Inc.' },
-    { ticker: 'MSFT', name: 'Microsoft Corporation' },
-    { ticker: 'AMZN', name: 'Amazon.com Inc.' },
-    { ticker: 'TSLA', name: 'Tesla, Inc.' },
-  ];
-
-  const addableStocks = allStocks
-    .filter((stock) => !stocks.some((item) => item.ticker === stock.ticker));
-
-  const onAddStockHandler = (newStock) => {
-    setStocks((prevStocks) => [...prevStocks, { ...newStock }]);
+function StockList({ stocks, setStocks }) {
+  const onAddQuantityHandler = (targetTicker) => {
+    const newStocks = stocks.map((stock) => {
+      if (stock.ticker === targetTicker) {
+        return { ...stock, quantity: stock.quantity + 1 };
+      }
+      return stock;
+    });
+    setStocks(newStocks);
   };
 
-  // TODO: Split the Add a stock into components
+  // TODO: potentially do some validation and
+  // sum duplicate stock entries together in case stocks is malformed
+
   return (
-    <>
-      <Header />
-      <AddStockButton addableStocks={addableStocks} onAddStockHandler={onAddStockHandler} />
-      <ul>
-        {stocks.map((stock) => (
-          <Stock
-            key={stock.ticker}
-            ticker={stock.ticker}
-            quantity={stock.quantity}
-            value={stock.value}
-          />
-        ))}
-      </ul>
-    </>
+    <ul>
+      {stocks.map((stock) => (
+        <Stock
+          key={stock.ticker}
+          ticker={stock.ticker}
+          quantity={stock.quantity}
+          value={stock.value}
+          onAddQuantityHandler={onAddQuantityHandler}
+        />
+      ))}
+    </ul>
   );
 }
+
+StockList.propTypes = {
+  stocks: PropTypes.arrayOf(
+    PropTypes.shape({
+      ticker: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
+      value: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+  setStocks: PropTypes.func.isRequired,
+};
 
 export default StockList;
