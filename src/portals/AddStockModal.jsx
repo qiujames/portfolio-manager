@@ -23,10 +23,16 @@ function AddStockModal({ addableStocks, onAddStockHandler, onClose }) {
     }
   };
 
+  const onKeyDownHandler = (e) => {
+    if (e.key === 'Enter') {
+      onClose();
+    }
+  };
+
   return createPortal(
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
+        <span role="button" className="close" onClick={onClose} onKeyDown={onKeyDownHandler} tabIndex={0}>&times;</span>
         <select value={selectedStock} onChange={onStockSelectHandler}>
           <option value="">Select a stock</option>
           {addableStocks.map((stock) => (
