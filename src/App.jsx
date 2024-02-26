@@ -6,10 +6,7 @@ import StockList from './components/StockList';
 
 function App() {
   return (
-    <>
-      <Header />
-      <StockList />
-    </>
+    <StockList />
   );
 }
 
