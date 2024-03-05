@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import StockList from './StockList';
 import Header from './Header';
 import AddStockButton from './AddStockButton';
+import PieChart from './PieChart';
 
 function Overview() {
   // TODO: read these from a db or have some user saved state
   const [stocks, setStocks] = useState([
     { ticker: 'VOO', quantity: 5, value: 500 },
     { ticker: 'V', quantity: 10, value: 23 },
-    { ticker: 'MC', quantity: 0, value: 400 },
+    { ticker: 'MC', quantity: 5, value: 400 },
+    { ticker: 'GOOG', quantity: 5, value: 500 },
+    { ticker: 'EBAY', quantity: 10, value: 23 },
+    { ticker: 'MCO', quantity: 5, value: 400 },
   ]);
 
   // TODO: Make this a global list, potentially from a file too
@@ -38,6 +42,7 @@ function Overview() {
         Total:
         {totalValue}
       </p>
+      <PieChart stocks={stocks} />
     </>
   );
 }
