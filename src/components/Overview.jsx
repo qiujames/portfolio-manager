@@ -23,7 +23,7 @@ function Overview() {
       try {
         const latestStockPrices = await fetchStockPrices(stocks);
 
-        // Write latestStockPrices to a file so we can
+        // TODO? Write latestStockPrices to a file so we can
         // later load the component using the previous state?
         // essentially tracking the latest value
 
