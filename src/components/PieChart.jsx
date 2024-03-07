@@ -33,7 +33,9 @@ function PieChart({ stocks }) {
         callbacks: {
           label(context) {
             const labelIndex = context.dataIndex;
-            return `${sortedLabels[labelIndex]}: ${sortedValues[labelIndex]}`;
+            const total = sortedValues.reduce((acc, val) => acc + val, 0);
+            const percentage = ((sortedValues[labelIndex] / total) * 100).toFixed(2);
+            return `${sortedLabels[labelIndex]}: ${sortedValues[labelIndex]} (${percentage}%)`;
           },
         },
       },
