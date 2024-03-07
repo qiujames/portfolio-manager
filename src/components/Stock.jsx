@@ -14,7 +14,7 @@ function Stock({
           *
           {value}
           =
-          {quantity * value}
+          {(quantity * value).toFixed(2)}
           <button type="button" onClick={() => onAddQuantityHandler(ticker)}>Increase Quantity</button>
         </li>
       ) : null);
