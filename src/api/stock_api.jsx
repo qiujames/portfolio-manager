@@ -1,4 +1,5 @@
 import config from '../config';
+import jsonData from '../sample_response';
 
 const API_KEY = config.apiKey;
 const METADATA_KEY = 'Meta Data';
@@ -16,6 +17,11 @@ const fetchStockPrice = async (ticker) => {
       const apiData = await response.json();
       const lastRefreshed = apiData[METADATA_KEY][LATEST_REFRESH_KEY];
       const timeSeries = apiData[TIME_SERIES_KEY];
+      const latestData = timeSeries[lastRefreshed];
+      lastValue = latestData[CLOSE_VALUE_KEY];
+    } else {
+      const lastRefreshed = jsonData[METADATA_KEY][LATEST_REFRESH_KEY];
+      const timeSeries = jsonData[TIME_SERIES_KEY];
       const latestData = timeSeries[lastRefreshed];
       lastValue = latestData[CLOSE_VALUE_KEY];
     }
