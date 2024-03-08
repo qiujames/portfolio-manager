@@ -40,3 +40,5 @@ yarn.lock
 *.zip
 *.gz
 
+# Env vars
+.env
