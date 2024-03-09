@@ -12,7 +12,7 @@ const { API_KEY_VALUE } = process.env;
 
 const cache = apicache.middleware;
 
-router.get('/', cache('1 day'), async (req, res) => {
+router.get('/', cache('30 minute'), async (req, res) => {
   try {
     const reqParams = url.parse(req.url, true).query;
     const apiParams = new URLSearchParams({
@@ -28,6 +28,7 @@ router.get('/', cache('1 day'), async (req, res) => {
 
     if (process.env.NODE_ENV !== 'production') {
       console.log(`REQUEST: ${API_BASE_URL}?${apiParams}`);
+      console.log('RETURNED', data);
     }
 
     res.status(200).json(data);
