@@ -1,40 +1,19 @@
-const METADATA_KEY = 'Meta Data';
-const LATEST_REFRESH_KEY = '3. Last Refreshed';
-const TIME_SERIES_KEY = 'Time Series (5min)';
-const CLOSE_VALUE_KEY = '4. close';
+const FETCH_STOCK_API = 'https://qiufolio.onrender.com/api';
 
-const fetchStockPrice = async (ticker) => {
-  try {
-  // Make API request to get stock prices
-  // TODO: Once the server is hosted, swap out the endpoint from localhost
-    const stockApiEndpoint = `http://localhost:5000/api?symbol=${ticker}`;
-    const response = await fetch(stockApiEndpoint);
-    const apiData = await response.json();
-    const lastRefreshed = apiData[METADATA_KEY][LATEST_REFRESH_KEY];
-    const timeSeries = apiData[TIME_SERIES_KEY];
-    const latestData = timeSeries[lastRefreshed];
-    const lastValue = latestData[CLOSE_VALUE_KEY];
-    console.log(ticker, lastValue);
-    const parsedValueToDecimalPoints = parseFloat(parseFloat(lastValue).toFixed(2));
-
-    // Parse the value to a float and specify two decimal places
-    return parsedValueToDecimalPoints;
-  } catch (error) {
-    return 0;
-  }
-};
-
+// Args: Stocks is an array of stock objects where
+// stocks has the interface of having a ticker: string field
+// Returns a map containing {
+//   ticker: map{close: int, date: Date }
+// }
 const fetchStockPrices = async (stocks) => {
-  const responses = await Promise.all(
-    stocks.map((stock) => fetchStockPrice(stock.ticker)),
-  );
+  const tickers = stocks.map((stock) => stock.ticker);
 
-  const allData = await Promise.all(
-    responses.map((value, index) => ({ [stocks[index].ticker]: value })),
-  );
-  // Process JSON data here and update state
-  const stockPricesMap = allData.reduce((acc, obj) => ({ ...acc, ...obj }), {});
-  return stockPricesMap;
+  // pass all tickers into the fetch stock api served by our proxy
+  // so we should see something like <url>/api?tickers=voo,v,mc...
+  const response = await fetch(`${FETCH_STOCK_API}?tickers=${tickers.join(',')}`);
+
+  // this is returned as { ticker: {ticker, close, date}}
+  return response;
 };
 
 export default fetchStockPrices;

@@ -21,6 +21,7 @@ function Overview() {
     // Call fetchStockPrices function when component mounts
     const fetchData = async () => {
       try {
+        // {ticker -> {ticker, close, date}}
         const latestStockPrices = await fetchStockPrices(stocks);
 
         // TODO? Write latestStockPrices to a file so we can
@@ -30,7 +31,7 @@ function Overview() {
         // Update the stocks state with the latest prices
         const newStockState = stocks.map((stock) => ({
           ...stock,
-          value: latestStockPrices[stock.ticker] || stock.value,
+          value: latestStockPrices[stock.ticker].close || stock.value,
         }));
         setStocks(newStockState);
       } catch (error) {
