@@ -20,7 +20,7 @@ app.set('trust proxy', 1);
 app.use(cors());
 
 // Routes
-app.use('/api', require('./routes/stocks'));
+app.use('/getStockPrice', require('./routes/getStockPrice'));
 
 // Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
