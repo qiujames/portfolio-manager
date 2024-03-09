@@ -40,10 +40,5 @@ yarn.lock
 *.zip
 *.gz
 
-<<<<<<< HEAD
-# API Keys
-/*/config.jsx
-=======
 # Env vars
 .env
->>>>>>> 1c5ca22 (add server setup (#5))
