@@ -24,11 +24,10 @@ function formatExternalApiResponse(ticker, data) {
   const timeSeries = data[TIME_SERIES_KEY];
   const latestData = timeSeries[lastRefreshed];
   const lastValue = latestData[CLOSE_VALUE_KEY];
-  console.log(ticker, lastValue);
   const parsedValueToDecimalPoints = parseFloat(parseFloat(lastValue).toFixed(2));
 
   // Parse the value to a float and specify two decimal places
-  return { [ticker]: { ticker, close: parsedValueToDecimalPoints, date: lastRefreshed } };
+  return { ticker, close: parsedValueToDecimalPoints, date: lastRefreshed };
 }
 
 // Function to fetch data for a single ticker
@@ -59,32 +58,24 @@ async function fetchTickerData(ticker) {
 }
 
 // API takes in as inputs a required query parameter of tickers
-//  tickers: list of case sensitive stock tickers to look up
-//    duplicates are allowed, but results will be collapsed for each of them
-//  returns a json map containing each ticker as the key which maps to a
-//    closing cost, and a corresponding date at which the cost was taken at
+//  ticker: case sensitive stock ticker string to get price for
+// returns a json object of { ticker, close, date }
 router.get('/', cache('1 minute'), async (req, res) => {
   try {
-    // parse out the tickers parameter from the request
+    // parse out the ticker parameter from the request
     const reqParams = url.parse(req.url, true).query;
-    const tickersArray = reqParams.tickers.split(',');
+    const { ticker } = reqParams;
 
-    // construct a promise for each ticker
-    const tickerPromises = tickersArray.map((ticker) => fetchTickerData(ticker));
+    // fetch data for the single ticker
+    const tickerData = await fetchTickerData(ticker);
 
-    // wait for each promise to resolve
-    const tickerDataResults = await Promise.all(tickerPromises);
+    if (!tickerData) {
+      return res.status(404).json({ error: 'Ticker not found or data not available' });
+    }
 
-    // filter out any failed ticker results
-    const successResults = tickerDataResults.filter((result) => result !== null);
-
-    // given [{ticker: {ticker, close, date}} ... ], I want to get out a flattened
-    // map of { ticker -> {ticker, close, date}, ....}, and we can use the spread operator
-    const formattedData = successResults.reduce((acc, result) => ({ ...acc, ...result }), {});
-
-    res.status(200).json(formattedData);
+    return res.status(200).json(tickerData);
   } catch (error) {
-    res.status(500).json({ error });
+    return res.status(500).json({ error });
   }
 });
 
