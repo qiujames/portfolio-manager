@@ -1,5 +1,4 @@
-// const FETCH_STOCK_API = 'https://qiufolio.onrender.com/api';
-const FETCH_STOCK_API = 'http://localhost:5000/getStockPrice';
+const FETCH_STOCK_API = 'https://qiufolio.onrender.com/getStockPrice';
 
 // returns a json { ticker, close, date } from the api
 const fetchStockPrice = async (ticker) => {
