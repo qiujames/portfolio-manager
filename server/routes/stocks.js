@@ -12,7 +12,7 @@ const { API_KEY_VALUE } = process.env;
 
 const cache = apicache.middleware;
 
-router.get('/', cache('30 minute'), async (req, res) => {
+router.get('/', cache('1 day'), async (req, res) => {
   try {
     const reqParams = url.parse(req.url, true).query;
     const apiParams = new URLSearchParams({
