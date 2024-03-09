@@ -28,7 +28,6 @@ router.get('/', cache('30 minute'), async (req, res) => {
 
     if (process.env.NODE_ENV !== 'production') {
       console.log(`REQUEST: ${API_BASE_URL}?${apiParams}`);
-      console.log('RETURNED', data);
     }
 
     res.status(200).json(data);
