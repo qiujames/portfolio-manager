@@ -60,7 +60,7 @@ async function fetchTickerData(ticker) {
 // API takes in as inputs a required query parameter of tickers
 //  ticker: case sensitive stock ticker string to get price for
 // returns a json object of { ticker, close, date }
-router.get('/', cache('1 minute'), async (req, res) => {
+router.get('/', cache('6 hour'), async (req, res) => {
   try {
     // parse out the ticker parameter from the request
     const reqParams = url.parse(req.url, true).query;
