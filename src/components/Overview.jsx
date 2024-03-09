@@ -39,6 +39,7 @@ function Overview() {
     };
 
     // Call fetchData function when component mounts
+    // TODO?: Do this on a timeout function or a refresh button?
     fetchData();
   }, []); // Empty dependency array to run effect only once on component mountnt
 
