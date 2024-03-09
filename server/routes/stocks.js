@@ -12,10 +12,23 @@ const { API_KEY_VALUE } = process.env;
 
 const cache = apicache.middleware;
 
+const METADATA_KEY = 'Meta Data';
+const LATEST_REFRESH_KEY = '3. Last Refreshed';
+const TIME_SERIES_KEY = 'Time Series (5min)';
+const CLOSE_VALUE_KEY = '4. close';
+
 // takes in response.data of the external api, and returns
 // an object containing {ticker: {ticker, close, date}}
 function formatExternalApiResponse(ticker, data) {
-  return { [ticker]: { ticker, close: data.close, date: data.timestamp } };
+  const lastRefreshed = data[METADATA_KEY][LATEST_REFRESH_KEY];
+  const timeSeries = data[TIME_SERIES_KEY];
+  const latestData = timeSeries[lastRefreshed];
+  const lastValue = latestData[CLOSE_VALUE_KEY];
+  console.log(ticker, lastValue);
+  const parsedValueToDecimalPoints = parseFloat(parseFloat(lastValue).toFixed(2));
+
+  // Parse the value to a float and specify two decimal places
+  return { [ticker]: { ticker, close: parsedValueToDecimalPoints, date: lastRefreshed } };
 }
 
 // Function to fetch data for a single ticker
@@ -33,11 +46,11 @@ async function fetchTickerData(ticker) {
 
     if (process.env.NODE_ENV !== 'production') {
       console.log(`REQUEST: ${API_BASE_URL}?${apiParams}`);
-      console.log('RETURNED', response.data);
+      console.log(response.body);
     }
 
     // Return {ticker -> {ticker, close, date}}
-    return formatExternalApiResponse(ticker, response.data);
+    return formatExternalApiResponse(ticker, response.body);
   } catch (error) {
     // Handle errors, such as if the external API returns an error
     console.error(`Failed to fetch data for ${ticker}: ${error.message}`);
@@ -50,7 +63,7 @@ async function fetchTickerData(ticker) {
 //    duplicates are allowed, but results will be collapsed for each of them
 //  returns a json map containing each ticker as the key which maps to a
 //    closing cost, and a corresponding date at which the cost was taken at
-router.get('/', cache('1 day'), async (req, res) => {
+router.get('/', cache('1 minute'), async (req, res) => {
   try {
     // parse out the tickers parameter from the request
     const reqParams = url.parse(req.url, true).query;
