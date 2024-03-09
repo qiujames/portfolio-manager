@@ -23,10 +23,13 @@ const fetchStockPrices = async (stocks) => {
     const tickerPromises = stocks.map((stock) => fetchStockPrice(stock.ticker));
     const tickerResults = await Promise.all(tickerPromises);
 
-    const stockData = tickerResults.reduce((acc, { ticker, close, date }) => {
-      if (ticker && close && date) {
-        acc[ticker] = { close, date };
-      }
+    // filter only for successes
+    const successfulResults = tickerResults.filter(
+      (result) => result !== null && result.error === null,
+    );
+
+    const stockData = successfulResults.reduce((acc, { ticker, close, date }) => {
+      acc[ticker] = { close, date };
       return acc;
     }, {});
 

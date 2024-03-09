@@ -30,10 +30,15 @@ function Overview() {
 
         // Update the stocks state with the latest prices
         console.log(latestStockPrices);
-        const newStockState = stocks.map((stock) => ({
-          ...stock,
-          value: latestStockPrices[stock.ticker].close || stock.value,
-        }));
+        const newStockState = stocks.map((stock) => {
+          // keep the rest of the stock fields the same but update if we get a new value
+          const newPrice = latestStockPrices[stock.ticker]?.close;
+          return {
+            ...stock,
+            // Keep the old value if newPrice is undefined
+            value: newPrice !== undefined ? newPrice : stock.value,
+          };
+        });
         setStocks(newStockState);
       } catch (error) {
         console.error('Error fetching stock prices:', error);
