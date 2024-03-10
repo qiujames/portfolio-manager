@@ -29,7 +29,6 @@ function Overview() {
         // essentially tracking the latest value
 
         // Update the stocks state with the latest prices
-        console.log(latestStockPrices);
         const newStockState = stocks.map((stock) => {
           // keep the rest of the stock fields the same but update if we get a new value
           const newPrice = latestStockPrices[stock.ticker]?.close;

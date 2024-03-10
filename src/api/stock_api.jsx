@@ -24,13 +24,14 @@ const fetchStockPrices = async (stocks) => {
 
     // filter only for successes
     const successfulResults = tickerResults.filter(
-      (result) => result !== null && result.error === null,
+      (result) => result !== null && !('error' in result),
     );
 
     const stockData = successfulResults.reduce((acc, { ticker, close, date }) => {
       acc[ticker] = { close, date };
       return acc;
     }, {});
+    console.log('stockData', stockData);
 
     return stockData;
   } catch (error) {
