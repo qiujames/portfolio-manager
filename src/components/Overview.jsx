@@ -10,8 +10,8 @@ function Overview() {
   const [stocks, setStocks] = useState([
     { ticker: 'VOO', quantity: 5, value: 500 },
     { ticker: 'V', quantity: 10, value: 23 },
-    { ticker: 'MC', quantity: 5, value: 400 },
-    { ticker: 'GOOG', quantity: 5, value: 500 },
+    { ticker: 'MA', quantity: 5, value: 400 },
+    { ticker: 'GOOGL', quantity: 5, value: 500 },
     { ticker: 'EBAY', quantity: 10, value: 23 },
     { ticker: 'MCO', quantity: 5, value: 400 },
   ]);
@@ -22,20 +22,18 @@ function Overview() {
     const fetchData = async () => {
       try {
         // {ticker -> {ticker, close, date}}
-        const latestStockPrices = await fetchStockPrices(stocks);
-
-        // TODO? Write latestStockPrices to a file so we can
-        // later load the component using the previous state?
-        // essentially tracking the latest value
+        const latestStockData = await fetchStockPrices(stocks);
 
         // Update the stocks state with the latest prices
         const newStockState = stocks.map((stock) => {
           // keep the rest of the stock fields the same but update if we get a new value
-          const newPrice = latestStockPrices[stock.ticker]?.close;
+          const newPrice = latestStockData[stock.ticker]?.close;
+          const newQuantity = latestStockData[stock.ticker]?.quantity;
           return {
             ...stock,
             // Keep the old value if newPrice is undefined
             value: newPrice !== undefined ? newPrice : stock.value,
+            quantity: newQuantity !== undefined ? newQuantity : stock.quantity,
           };
         });
         setStocks(newStockState);
