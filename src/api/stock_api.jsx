@@ -14,8 +14,8 @@ const fetchStockPrice = async (ticker) => {
 
 // Args: Stocks is an array of stock objects where
 // stocks has the interface of having a ticker: string field
-// Returns a map containing {
-//   ticker: map{close: int, date: Date }
+// Returns an array containing {
+//   { ticker, quantity, close, date: Date }
 // }
 const fetchStockPrices = async (stocks) => {
   try {
@@ -27,18 +27,14 @@ const fetchStockPrices = async (stocks) => {
       (result) => result !== null && !('error' in result),
     );
 
-    const stockData = successfulResults.reduce((acc, {
+    const stockData = successfulResults.map(({
       ticker, quantity, close, date,
-    }) => {
-      acc[ticker] = {
-        quantity,
-        close: parseFloat(close),
-        date,
-      };
-      return acc;
-    }, {});
-    console.log('stockData', stockData);
-
+    }) => ({
+      ticker,
+      quantity,
+      value: parseFloat(close),
+      last_update_date: date,
+    }));
     return stockData;
   } catch (error) {
     console.error(`Failed to fetch stock prices: ${error.message}`);
