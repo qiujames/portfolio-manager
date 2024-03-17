@@ -4,9 +4,15 @@ import Header from './Header';
 import AddStockButton from './AddStockButton';
 import PieChart from './PieChart';
 import fetchStockPrices from '../api/stock_api';
+import Spinner from './Spinner/Spinner';
 
 function Overview() {
-  // TODO: read these from a db or have some user saved state
+  const [isLoading, setIsLoading] = useState(true); // set initial state to loading
+
+  // TODO: this will eventually become empty, however, because we need this
+  // to know what stocks to query for, we keep the default list in
+  // however, we can only move off this until we get a concept of users / authentication
+  // within the app
   const [stocks, setStocks] = useState([
     { ticker: 'VOO', quantity: 5, value: 500 },
     { ticker: 'V', quantity: 10, value: 23 },
@@ -21,22 +27,10 @@ function Overview() {
     // Call fetchStockPrices function when component mounts
     const fetchData = async () => {
       try {
-        // {ticker -> {ticker, close, date}}
+        // fetchStockPrices returns an array of [{ ticker, quantity, value, date }]
         const latestStockData = await fetchStockPrices(stocks);
-
-        // Update the stocks state with the latest prices
-        const newStockState = stocks.map((stock) => {
-          // keep the rest of the stock fields the same but update if we get a new value
-          const newPrice = latestStockData[stock.ticker]?.close;
-          const newQuantity = latestStockData[stock.ticker]?.quantity;
-          return {
-            ...stock,
-            // Keep the old value if newPrice is undefined
-            value: newPrice !== undefined ? newPrice : stock.value,
-            quantity: newQuantity !== undefined ? newQuantity : stock.quantity,
-          };
-        });
-        setStocks(newStockState);
+        setStocks(latestStockData);
+        setIsLoading(false); // set loading false once stock update is complete
       } catch (error) {
         console.error('Error fetching stock prices:', error);
       }
@@ -47,6 +41,10 @@ function Overview() {
     fetchData();
   }, []); // Empty dependency array to run effect only once on component mountnt
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   // TODO: Make this a global list, potentially from a file too
   const allStocks = [
     { ticker: 'AAPL', name: 'Apple Inc.' },
@@ -56,8 +54,14 @@ function Overview() {
     { ticker: 'TSLA', name: 'Tesla, Inc.' },
   ];
 
-  const addableStocks = allStocks
-    .filter((stock) => !stocks.some((item) => item.ticker === stock.ticker));
+  let addableStocks = null;
+  if (stocks) {
+    addableStocks = allStocks.filter(
+      (stock) => !stocks.some((item) => item.ticker === stock.ticker),
+    );
+  } else {
+    addableStocks = allStocks;
+  }
 
   const onAddStockHandler = (newStock) => {
     setStocks((prevStocks) => [...prevStocks, { ...newStock }]);
