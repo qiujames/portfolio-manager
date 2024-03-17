@@ -27,8 +27,14 @@ const fetchStockPrices = async (stocks) => {
       (result) => result !== null && !('error' in result),
     );
 
-    const stockData = successfulResults.reduce((acc, { ticker, close, date }) => {
-      acc[ticker] = { close, date };
+    const stockData = successfulResults.reduce((acc, {
+      ticker, quantity, close, date,
+    }) => {
+      acc[ticker] = {
+        quantity,
+        close: parseFloat(close),
+        date,
+      };
       return acc;
     }, {});
     console.log('stockData', stockData);
