@@ -33,7 +33,7 @@ const fetchStockPrices = async (stocks) => {
       ticker,
       quantity,
       value: parseFloat(close),
-      last_update_date: date,
+      date,
     }));
     return stockData;
   } catch (error) {

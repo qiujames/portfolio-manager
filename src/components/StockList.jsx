@@ -25,6 +25,7 @@ function StockList({ stocks, setStocks }) {
           ticker={stock.ticker}
           quantity={stock.quantity}
           value={stock.value}
+          date={stock.date}
           onAddQuantityHandler={onAddQuantityHandler}
         />
       ))}
@@ -38,6 +39,7 @@ StockList.propTypes = {
       ticker: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired,
+      date: PropTypes.string.isRequired,
     }),
   ).isRequired,
   setStocks: PropTypes.func.isRequired,
