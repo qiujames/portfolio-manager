@@ -4,18 +4,24 @@ import {
   ArcElement, Chart as ChartJS, Colors, Legend, Tooltip,
 } from 'chart.js';
 import PropTypes from 'prop-types';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import getStockValue from '../utils/TotalStockValueUtil';
 
 ChartJS.register(ArcElement);
 ChartJS.register(Colors);
 ChartJS.register(Tooltip);
 ChartJS.register(Legend);
+ChartJS.register(ChartDataLabels);
+
+const PERCENTAGE_LABEL_THRESHOLD = 8;
 
 function PieChart({ stocks }) {
   const sortedStocks = stocks.slice().sort((a, b) => getStockValue(b) - getStockValue(a));
   // Extracting labels and data for the chart
   const sortedLabels = sortedStocks.map((stock) => stock.ticker);
   const sortedValues = sortedStocks.map((stock) => getStockValue(stock));
+
+  const total = sortedValues.reduce((acc, val) => acc + val, 0);
 
   const data = {
     labels: sortedLabels,
@@ -33,7 +39,6 @@ function PieChart({ stocks }) {
         callbacks: {
           label(context) {
             const labelIndex = context.dataIndex;
-            const total = sortedValues.reduce((acc, val) => acc + val, 0);
             const percentage = ((sortedValues[labelIndex] / total) * 100).toFixed(2);
             return `${sortedLabels[labelIndex]}: ${sortedValues[labelIndex]} (${percentage}%)`;
           },
@@ -46,6 +51,18 @@ function PieChart({ stocks }) {
       },
       colors: {
         enabled: true,
+      },
+      datalabels: {
+        display(context) {
+          const labelIndex = context.dataIndex;
+          const percentage = ((sortedValues[labelIndex] / total) * 100).toFixed(2);
+          return percentage > PERCENTAGE_LABEL_THRESHOLD;
+        },
+        formatter(_, context) {
+          const labelIndex = context.dataIndex;
+          return sortedLabels[labelIndex];
+        },
+        color: 'black',
       },
     },
   };
