@@ -1,8 +1,9 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-
-require('dotenv').config();
+const cronJob = require('./cron/cron');
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,6 +22,10 @@ app.use(cors());
 
 // Routes
 app.use('/getStockPrice', require('./routes/getStockPrice'));
+
+// Start Cron Job
+console.log('Starting cron!');
+cronJob.start();
 
 // Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
