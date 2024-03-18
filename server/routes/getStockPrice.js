@@ -8,7 +8,7 @@ const router = express.Router();
 const cache = apicache.middleware;
 
 // Function to fetch data for a single ticker
-async function fetchTickerData(ticker) {
+async function fetchTickerDataFromDB(ticker) {
   // TODO: qiujames is set for now, eventually we will have users
   // TODO: eventually include the quantity
   try {
@@ -40,7 +40,7 @@ router.get('/', cache('30 minutes'), async (req, res) => {
     const { ticker } = reqParams;
 
     // fetch data for the single ticker
-    const tickerData = await fetchTickerData(ticker);
+    const tickerData = await fetchTickerDataFromDB(ticker);
 
     if (!tickerData) {
       return res.status(404).json({ error: 'Ticker not found or data not available' });
