@@ -13,7 +13,7 @@ async function fetchTickerDataFromDB(ticker) {
   // TODO: eventually include the quantity
   try {
     const stockData = await itemsPool.query(`
-      SELECT us.ticker AS ticker, us.quantity AS quantity, s.last_price AS close, s.last_price_update AS date
+      SELECT us.ticker AS ticker, us.quantity AS quantity, s.last_price AS close, s.last_price_timestamp AS date
       FROM user_stocks AS us
       JOIN stocks AS s ON us.ticker = s.ticker
       WHERE us.username = 'qiujames' AND us.ticker = $1;
@@ -33,7 +33,7 @@ async function fetchTickerDataFromDB(ticker) {
 // API takes in as inputs a required query parameter of tickers
 //  ticker: case sensitive stock ticker string to get price for
 // returns a json object of { ticker, close, date }
-router.get('/', cache('30 minutes'), async (req, res) => {
+router.get('/', cache('1 minutes'), async (req, res) => {
   try {
     // parse out the ticker parameter from the request
     const reqParams = url.parse(req.url, true).query;
