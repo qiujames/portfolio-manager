@@ -15,7 +15,8 @@ async function fetchStaleStocksFromDb() {
     const queryResult = await itemsPool.query(`
         SELECT ticker 
         FROM stocks 
-        WHERE last_data_update_timestamp < $1 
+        WHERE last_data_update_timestamp < $1
+        OR last_data_update_timestamp IS NULL
         ORDER BY last_data_update_timestamp ASC NULLS FIRST
         LIMIT 5
     `, [staleTimeThreshold]);
