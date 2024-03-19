@@ -13,8 +13,8 @@ const { fetchStaleStocksFromDb, fetchAndUpdateStockData } = require('./helpers')
 // trigger 9am and 12pm, Monday through Friday
 // const cronSchedule = '0 9,12 * * 1-5';
 
-// run every 15 minutes instead but do it on a stale basis
-const CRON_SCHEDULE = '*/15 * * * * *';
+// run every 1 minutes instead but do it on a stale basis
+const CRON_SCHEDULE = '*/1 * * * *';
 
 const cronJob = cron.schedule(
   CRON_SCHEDULE,
