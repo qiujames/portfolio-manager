@@ -4,6 +4,10 @@ import React from 'react';
 import Stock from './Stock';
 
 function StockList({ stocks, setStocks }) {
+  const total = stocks.map(
+    (stock) => stock.value * stock.quantity,
+  ).reduce((acc, val) => acc + val, 0);
+
   const onAddQuantityHandler = (targetTicker) => {
     const newStocks = stocks.map((stock) => {
       if (stock.ticker === targetTicker) {
@@ -16,7 +20,6 @@ function StockList({ stocks, setStocks }) {
 
   // TODO: potentially do some validation and
   // sum duplicate stock entries together in case stocks is malformed
-
   return (
     <ul>
       {stocks.map((stock) => (
@@ -27,6 +30,7 @@ function StockList({ stocks, setStocks }) {
           value={stock.value}
           date={stock.date}
           idealStockPercentage={stock.idealStockPercentage}
+          total={total}
           onAddQuantityHandler={onAddQuantityHandler}
         />
       ))}

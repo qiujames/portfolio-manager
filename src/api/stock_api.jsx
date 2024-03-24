@@ -35,7 +35,7 @@ const fetchStockPrices = async (stocks) => {
       quantity,
       value: parseFloat(close),
       date,
-      idealStockPercentage,
+      idealStockPercentage: parseFloat(idealStockPercentage),
     }));
     return stockData;
   } catch (error) {
