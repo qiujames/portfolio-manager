@@ -12,7 +12,7 @@ function formatDateString(dateString) {
 }
 
 function Stock({
-  ticker, quantity, value, date, onAddQuantityHandler,
+  ticker, quantity, value, date, idealStockPercentage, onAddQuantityHandler,
 }) {
   return (
     quantity > 0 && (
@@ -29,6 +29,9 @@ function Stock({
         ,
         {' '}
         {formatDateString(date)}
+        , Desired Allocation=
+        {idealStockPercentage}
+        %
         <button type="button" onClick={() => onAddQuantityHandler(ticker)}>Increase Quantity</button>
       </li>
     )
@@ -40,6 +43,7 @@ Stock.propTypes = {
   quantity: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
+  idealStockPercentage: PropTypes.number.isRequired,
   onAddQuantityHandler: PropTypes.func.isRequired,
 };
 export default Stock;

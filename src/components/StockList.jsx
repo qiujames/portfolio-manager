@@ -26,6 +26,7 @@ function StockList({ stocks, setStocks }) {
           quantity={stock.quantity}
           value={stock.value}
           date={stock.date}
+          idealStockPercentage={stock.idealStockPercentage}
           onAddQuantityHandler={onAddQuantityHandler}
         />
       ))}
@@ -40,6 +41,7 @@ StockList.propTypes = {
       quantity: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired,
       date: PropTypes.string.isRequired,
+      idealStockPercentage: PropTypes.number.isRequired,
     }),
   ).isRequired,
   setStocks: PropTypes.func.isRequired,

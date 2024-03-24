@@ -14,12 +14,12 @@ function Overview() {
   // however, we can only move off this until we get a concept of users / authentication
   // within the app
   const [stocks, setStocks] = useState([
-    { ticker: 'VOO', quantity: 5, value: 500 },
-    { ticker: 'V', quantity: 10, value: 23 },
-    { ticker: 'MA', quantity: 5, value: 400 },
-    { ticker: 'GOOGL', quantity: 5, value: 500 },
-    { ticker: 'EBAY', quantity: 10, value: 23 },
-    { ticker: 'MCO', quantity: 5, value: 400 },
+    { ticker: 'VOO' },
+    { ticker: 'V' },
+    { ticker: 'MA' },
+    { ticker: 'GOOGL' },
+    { ticker: 'EBAY' },
+    { ticker: 'MCO' },
   ]);
 
   useEffect(() => {
@@ -27,7 +27,8 @@ function Overview() {
     // Call fetchStockPrices function when component mounts
     const fetchData = async () => {
       try {
-        // fetchStockPrices returns an array of [{ ticker, quantity, value, date }]
+        // fetchStockPrices returns an array of
+        // [{ ticker, quantity, value, date, idealStockPercentage }]
         const latestStockData = await fetchStockPrices(stocks);
         setStocks(latestStockData);
         setIsLoading(false); // set loading false once stock update is complete

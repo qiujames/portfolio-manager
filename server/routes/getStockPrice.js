@@ -13,7 +13,9 @@ async function fetchTickerDataFromDB(ticker) {
   // TODO: eventually include the quantity
   try {
     const stockData = await itemsPool.query(`
-      SELECT us.ticker AS ticker, us.quantity AS quantity, s.last_price AS close, s.last_price_timestamp AS date
+      SELECT us.ticker AS ticker, us.quantity AS quantity, 
+        s.last_price AS close, s.last_price_timestamp AS date,
+        us.ideal_stock_percentage AS ideal_stock_percentage
       FROM user_stocks AS us
       JOIN stocks AS s ON us.ticker = s.ticker
       WHERE us.username = 'qiujames' AND us.ticker = $1;
