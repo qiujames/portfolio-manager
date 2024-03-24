@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import StockList from './StockList';
-import Header from './Header';
-import AddStockButton from './AddStockButton';
-import PieChart from './PieChart';
+
 import fetchStockPrices from '../api/stock_api';
+
+import AddStockButton from './AddStockButton';
+import Header from './Header';
+import PieChart from './PieChart';
 import Spinner from './Spinner/Spinner';
+import StockList from './StockList';
 
 function Overview() {
   const [isLoading, setIsLoading] = useState(true); // set initial state to loading

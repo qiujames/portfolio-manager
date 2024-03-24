@@ -1,10 +1,11 @@
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
 import {
   ArcElement, Chart as ChartJS, Colors, Legend, Tooltip,
 } from 'chart.js';
-import PropTypes from 'prop-types';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Pie } from 'react-chartjs-2';
+
 import getStockValue from '../utils/TotalStockValueUtil';
 
 ChartJS.register(ArcElement);
