@@ -68,13 +68,10 @@
   width: 50vw;
 }
 
+/* If the max screen size is small, use the majority of the screen space */
 @media (max-width:768px) {
-
-  /* your conditional / responsive CSS inside this condition */
-
   .chartContainer {
     height: 90%;
     width: 90%;
   }
-
 }
