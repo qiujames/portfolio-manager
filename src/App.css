@@ -67,3 +67,14 @@
   height: 50vh;
   width: 50vw;
 }
+
+@media (max-width:768px) {
+
+  /* your conditional / responsive CSS inside this condition */
+
+  .chartContainer {
+    height: 90%;
+    width: 90%;
+  }
+
+}
