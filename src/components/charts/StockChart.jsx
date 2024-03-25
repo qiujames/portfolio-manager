@@ -1,22 +1,12 @@
-import {
-  ArcElement, Chart as ChartJS, Colors, Legend, Tooltip,
-} from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 
-import getStockValue from '../utils/TotalStockValueUtil';
-
-ChartJS.register(ArcElement);
-ChartJS.register(Colors);
-ChartJS.register(Tooltip);
-ChartJS.register(Legend);
-ChartJS.register(ChartDataLabels);
+import getStockValue from '../../utils/TotalStockValueUtil';
 
 const PERCENTAGE_LABEL_THRESHOLD = 8;
 
-function PieChart({ stocks }) {
+function StockChart({ stocks }) {
   const sortedStocks = stocks.slice().sort((a, b) => getStockValue(b) - getStockValue(a));
   // Extracting labels and data for the chart
   const sortedLabels = sortedStocks.map((stock) => stock.ticker);
@@ -34,6 +24,7 @@ function PieChart({ stocks }) {
   };
 
   const options = {
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         enabled: true,
@@ -71,7 +62,7 @@ function PieChart({ stocks }) {
   return <Pie data={data} options={options} />;
 }
 
-PieChart.propTypes = {
+StockChart.propTypes = {
   stocks: PropTypes.arrayOf(
     PropTypes.shape({
       ticker: PropTypes.string.isRequired,
@@ -81,4 +72,4 @@ PieChart.propTypes = {
   ).isRequired,
 };
 
-export default PieChart;
+export default StockChart;

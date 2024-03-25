@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import fetchStockPrices from '../api/stock_api';
 
 import AddStockButton from './AddStockButton';
+import PieChart from './charts/PieChart';
 import Header from './Header';
-import PieChart from './PieChart';
 import Spinner from './Spinner/Spinner';
 import StockList from './StockList';
 

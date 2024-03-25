@@ -56,3 +56,14 @@
 .red {
   color: red;
 }
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 auto;
+  height: 50vh;
+  width: 50vw;
+}
