@@ -67,3 +67,11 @@
   height: 50vh;
   width: 50vw;
 }
+
+/* If the max screen size is small, use the majority of the screen space */
+@media (max-width:768px) {
+  .chartContainer {
+    height: 90%;
+    width: 90%;
+  }
+}
