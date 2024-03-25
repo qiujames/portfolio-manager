@@ -75,13 +75,21 @@ function Overview() {
   return (
     <>
       <Header />
-      <AddStockButton addableStocks={addableStocks} onAddStockHandler={onAddStockHandler} />
-      <StockList stocks={stocks} setStocks={setStocks} />
-      <p>
-        Total:
-        {totalValue.toFixed(2)}
-      </p>
-      <PieChart stocks={stocks} />
+      <div className="container">
+        <div className="column">
+          <AddStockButton addableStocks={addableStocks} onAddStockHandler={onAddStockHandler} />
+          <div className="scrollable-list">
+            <StockList stocks={stocks} setStocks={setStocks} />
+          </div>
+          <p>
+            Total:
+            {totalValue.toFixed(2)}
+          </p>
+        </div>
+        <div className="column">
+          <PieChart stocks={stocks} />
+        </div>
+      </div>
     </>
   );
 }

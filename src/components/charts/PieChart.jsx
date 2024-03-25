@@ -8,6 +8,8 @@ import { React, useState } from 'react';
 import IdealPercentageChart from './IdealPercentageChart';
 import StockChart from './StockChart';
 
+import './chart.css';
+
 ChartJS.register(ArcElement);
 ChartJS.register(Colors);
 ChartJS.register(Tooltip);
